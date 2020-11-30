@@ -1,15 +1,17 @@
+import sys
 import pandas as pd
 import numpy as np
+from plotnine import*
 import os
 
-class Assingment(object):
+class Assignment(object):
     def __init__(self):
         os.system('cls')
-        self.data1 = pd.read_csv("cars.csv", sep=';')
-        self.data2 = pd.read_csv("COVID19.csv")
-        self.data3 = pd.read_csv("film.csv", sep=';',encoding='cp1252')
-        self.data4 = pd.read_csv("Population.csv",encoding='cp1252')
-        self.data5 = pd.read_csv("UKBank.csv")
+        self.data1 = pd.read_csv('cars.csv', sep=';')
+        self.data2 = pd.read_csv('COVID19.csv')
+        self.data3 = pd.read_csv('film.csv', sep=';',encoding='cp1252')
+        self.data4 = pd.read_csv('Population.csv',encoding='cp1252')
+        self.data5 = pd.read_csv('UKBank.csv')
         self.columnintvalue_list=[]
         self.columnfvalue_list = []
         self.sum_list = []
@@ -26,7 +28,7 @@ class Assingment(object):
         '\n9) Create a bin of numeric series to 10 groups of equal size\n10) Get stack visualization of two series vertically and horizontally' + 
         '\n11) Get frequency counts of unique items of a series' + 
         '\n12) Compute the maximum possible correlation value of each column against other columns' + 
-        '\n13) Create a column containing the minimum by maximum of each row\n99) More Pandas Examples\n00) Exit\n')
+        '\n13) Create a column containing the minimum by maximum of each row\n14) Plot graphs\n99) More Pandas Examples\n00) Exit')
         main_option = int(input(''))
         if main_option == 1:
             self.print()
@@ -54,6 +56,8 @@ class Assingment(object):
             self.correlation()
         elif main_option == 13:
             self.minByMax()
+        elif main_option == 14:
+            Graph()
         elif main_option == 99:
             Examples().main()
         elif main_option == 00:
@@ -121,7 +125,7 @@ class Assingment(object):
         else:
             print('\nPlease select from the options provided!\n')
             os.system('pause')
-        print("\nPlease select a column:\n")
+        print("\nPlease select a column:\n(1st Column starts from 0)\n")
         print(list(df.columns.values))
         col_option = int(input("\n"))
         new_name = str(input("\nNew column name:\n"))
@@ -479,7 +483,7 @@ class Examples(object):
         elif example_option == 5:
             self.replaceByMean()
         elif example_option == 99:
-            Assingment().main()
+            Assignment().main()
         elif example_option == 00:
             quit
         else:
@@ -531,4 +535,74 @@ class Examples(object):
         os.system('pause')
         self.main()
 
-Assingment()
+class Graph(object):
+    def __init__(self):
+        self.data1 = pd.read_csv("cars.csv", sep=';')
+        self.data2 = pd.read_csv("COVID19.csv")
+        self.data3 = pd.read_csv("film.csv", sep=';',encoding='cp1252')
+        self.data4 = pd.read_csv("Population.csv",encoding='cp1252')
+        self.data5 = pd.read_csv("UKBank.csv")
+        os.system('cls')
+        graph_option = int(input('Which dataset do you want to plot?\n1) Cars.csv\n2) Effects of COVID-19 on trade.csv\n3) Films.csv\n4) US Cities Population.csv\n5) UK Bank Customers.csv\n0) Return to menu\n'))
+        if graph_option == 1:
+            self.graph1()
+        elif graph_option == 2:
+            self.graph2()
+        elif graph_option == 3:
+            self.graph3()
+        elif graph_option == 4:
+            self.graph4()
+        elif graph_option == 5:
+            self.graph5()
+        elif graph_option == 0:
+            Assignment().main()
+        else:
+            print('\nPlease select from the options provided!\n')
+
+    def graph1(self):
+        vis = (ggplot(self.data1, aes(x="Origin")) + 
+                    geom_bar(fill = "steelblue")+
+                    labs(title="Cars")+
+                    theme_classic())
+        print(vis)
+        os.system('pause')
+        self.__init__()
+
+    def graph2(self):
+        vis = (ggplot(self.data2, aes(x="Year", y="Cumulative")) + 
+                    geom_bar(stat = 'identity',fill = "steelblue")+
+                    labs(title="Effect of COVID19 on trade")+
+                    theme_classic())
+        print(vis)
+        os.system('pause')
+        self.__init__()
+
+    def graph3(self):
+        vis = (ggplot(self.data3, aes(x="Subject")) + 
+                    geom_bar(fill = "steelblue")+
+                    labs(title="Films")+
+                    theme_classic())
+        print(vis)
+        os.system('pause')
+        self.__init__()
+
+    def graph4(self):
+        vis = (ggplot(self.data4, aes(x="State")) + 
+                    geom_bar(fill = "steelblue")+
+                    labs(title="City Population",y="Total Change Count")+
+                    theme_classic()+
+                    coord_flip())
+        print(vis)
+        os.system('pause')
+        self.__init__()
+
+    def graph5(self):
+        vis = (ggplot(self.data5, aes(x="Job Classification")) + 
+                    geom_bar(fill = "steelblue")+
+                    labs(title="Bank Customers")+
+                    theme_dark())
+        print(vis)
+        os.system('pause')
+        self.__init__()
+
+Assignment()
